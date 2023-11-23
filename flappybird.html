@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flappy Bird</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: #70c5ce;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    canvas {
+      border: 1px solid white;
+      z-index: 0;
+    }
+
+    #restart-button {
+      width: 120px;
+      height: 50px;
+      font-size: 18px;
+      background: #4CAF50;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #high-score {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <canvas width="400" height="400" id="game"></canvas>
+    <button id="restart-button" style="display: none;">Restart</button>
+    <p id="high-score">High Score: <span id="high-score-value">0</span></p>
+  </div>
+  <script>
+    var canvas = document.getElementById('game');
+    var context = canvas.getContext('2d');
+
+    canvas.style.zIndex = '0';
+
+    var bird = {
+      x: 50,
+      y: canvas.height / 2 - 25,
+      width: 50,
+      height: 50,
+      velocity: 0,
+      gravity: 0.08, // Reduced gravity for easier gameplay
+      jumpStrength: -2.5, // Reduced jump strength for easier jumping
+    };
+
+    var birdImage = new Image();
+    birdImage.src = 'bird.png';
+
+    var pipes = [];
+    var score = 0;
+    var gameOver = false;
+
+    var highScore = parseInt(localStorage.getItem('flappyBirdHighScore')) || 0;
+    document.getElementById('high-score-value').textContent = highScore;
+
+    function drawBird() {
+      context.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height);
+    }
+
+    function drawPipe(x, height) {
+      context.fillStyle = 'green';
+      context.fillRect(x, 0, 50, height);
+      context.fillRect(x, height + 100, 50, canvas.height - height - 50);
+    }
+
+    function drawScore() {
+      context.fillStyle = 'white';
+      context.font = '24px Arial';
+      context.fillText('Score: ' + score, 20, 30);
+    }
+
+    function checkCollision(pipe) {
+      if (
+        bird.x + bird.width > pipe.x &&
+        bird.x < pipe.x + 50 &&
+        (bird.y < pipe.height || bird.y + bird.height > pipe.height + 100)
+      ) {
+        return true;
+      }
+      return false;
+    }
+
+    function update() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (!gameOver) {
+        bird.velocity += bird.gravity;
+        bird.y += bird.velocity;
+
+        if (frames % 120 === 0) { // Slower pipe generation for easier gameplay
+          var pipeHeight = Math.floor(Math.random() * 200) + 100;
+          pipes.push({ x: canvas.width, height: pipeHeight });
+        }
+
+        for (var i = 0; i < pipes.length; i++) {
+          var pipe = pipes[i];
+          pipe.x -= 2;
+
+          if (checkCollision(pipe)) {
+            gameOver = true;
+            document.getElementById('restart-button').style.display = 'block';
+
+            if (score > highScore) {
+              highScore = score;
+              localStorage.setItem('flappyBirdHighScore', highScore);
+              document.getElementById('high-score-value').textContent = highScore;
+            }
+            return;
+          }
+
+          if (pipe.x + 50 < 0) {
+            pipes.shift();
+            score++;
+          }
+
+          drawPipe(pipe.x, pipe.height);
+        }
+
+        if (bird.y + bird.height > canvas.height || bird.y < 0) { // Bird can't go off-screen
+          gameOver = true;
+          document.getElementById('restart-button').style.display = 'block';
+            
+          if (score > highScore) {
+            highScore = score;
+            localStorage.setItem('flappyBirdHighScore', highScore);
+            document.getElementById('high-score-value').textContent = highScore;
+          }
+          return;
+        }
+
+        drawBird();
+        drawScore();
+
+        frames++;
+        requestAnimationFrame(update);
+      }
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (!gameOver && e.keyCode === 32) {
+        bird.velocity = bird.jumpStrength;
+      }
+    });
+
+    document.addEventListener('click', function () {
+      if (!gameOver) {
+        bird.velocity = bird.jumpStrength;
+      }
+    });
+
+    document.getElementById('restart-button').addEventListener('click', function () {
+      restartGame();
+      requestAnimationFrame(update);
+    });
+
+    var frames = 0;
+    update();
+
+    function restartGame() {
+      bird.y = canvas.height / 2 - 25;
+    
+      bird.velocity = 0;
+      pipes = [];
+      score = 0;
+      gameOver = false;
+      document.getElementById('restart-button').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

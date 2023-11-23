@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AutoSwiftSpot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #6bbaeb;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .userProfile {
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .userProfile button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 18px;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .userProfile button:focus {
+            outline: none;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        .game-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
+
+        .game-card {
+            width: 250px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-title {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .game-description {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .game-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .game-button:hover {
+            background-color: #0056b3;
+        }
+
+        .game-image {
+            max-width: 100%;
+            height: auto;
+        }
+        .signUp{
+            background-color: rgb(11, 47, 164);
+            margin: remove;
+            border-radius: 10px;
+            padding:5px;
+            border: none;
+        }
+        .login{
+            background-color: rgb(11, 47, 164);
+            margin: remove;
+            border-radius: 10px;
+            padding:5px;
+            border: none;
+        }
+        .textS{
+            color: #fff;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="signUp"><a href="signupCloud.html" class="textS">Sign up</a></button><button class="login"><a href="loginCloud.html" class="textS">Login</a></button></p>
+        <h1>AutoSwiftSpot</h1>
+        <h2>A cooler way to park your drive</h2>
+    </div>
+
+    <div class="game-container">
+        <div class="game-card">
+            <img class="game-image" src="birdTemp.png" alt="Game Image 1">
+            <div class="game-title">Flappy bird</div>
+            <a class="game-button" href="flappybird.html">play game</a>
+        </div>
+        <div class="game-card">
+            <img class="game-image" src="snakeTemp.png" alt="Game Image 2">
+            <div class="game-title">snake game</div>
+            <a class="game-button" href="snake.html">Play</a>
+        </div>
+        <div class="game-card">
+            <img class="game-image" src="tictacTemp.png" alt="Game Image 3">
+            <div class="game-title">tic tac toe</div>
+            <a class="game-button" href="aboutus.html">Play game</a>
+        </div>
+    </div>
+</body>
+</html>
