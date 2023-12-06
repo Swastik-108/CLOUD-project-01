@@ -151,6 +151,19 @@
     });
 
     requestAnimationFrame(loop);
+    function submitScore(score) {
+    $.post("submit_score.php", { score: score }, function(data) {
+        console.log(data); // Handle response from the server
+    });
+}
+
+// Example for retrieving high scores
+function getHighScores() {
+    $.get("get_high_scores.php", function(data) {
+        var scores = JSON.parse(data);
+        console.log(scores); // Handle the array of high scores
+    });
+}
   </script>
 </body>
 </html>
