@@ -1,7 +1,7 @@
 <?php
-$servername = "127.0.0.1";
+$servername = "database-1.c09sqyoza5hu.us-east-1.rds.amazonaws.com:3306";
 $username = "root";
-$password = "1661";
+$password = "password";
 $database = "userdb";
 
 
