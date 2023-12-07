@@ -5,41 +5,23 @@ $email =$_POST['username'];
 $password =$_POST['password'];
 $con = new mysqli("database-1.c09sqyoza5hu.us-east-1.rds.amazonaws.com","root", "password", "userdb");
 
-if($con->connect_error) {
 
-die("Failed to connect : ".$con->connect_error);
+// Database connection
+$conn = new mysqli('localhost', 'root', '', 'test');
 
+if ($conn->connect_error) {
+    die('Connection Failed: ' . $conn->connect_error);
 } else {
+    $stmt = $conn->prepare("INSERT INTO registration (firstName, lastName, gender, email, password, number) VALUES (?, ?, ?, ?, ?, ?)");
 
-$stmt = $con->prepare("select * from users where email = ?");
+    $stmt->bind_param("ss",$email, $password);
 
-$stmt->bind_param("s", $email);
+    $stmt->execute();
 
-$stmt->execute();
+    echo "Registration Successful...";
 
-$stmt_result = $stmt->get_result();
-
-if($stmt_result->num_rows > 0) {
-
-$data = $stmt_result->fetch_assoc();
-
-I
-
-if($data['password'] === $password) {
-
-echo "<h2>Login Successfully</h2>";
-
-} else {
-
-echo "<h2>Invalid Email or password</h2>";
-
+    $stmt->close();
+    $conn->close();
 }
 
-} else {
-
-echo "<h2>Invalid Email or password</h2>";
-
-}
-
-}
 ?>
